@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { getUserBoards, createBoard } from '@/lib/database';
 import { Bricolage_Grotesque } from 'next/font/google';
-import { ArrowDown, MoreHorizontal, MoreVertical } from 'lucide-react';
+import { ArrowDown, MoreHorizontal } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import Header from '@/components/Header';
 import { toast } from '@/components/Toast';
 
 const bricolageGrotesque = Bricolage_Grotesque({
@@ -100,53 +101,15 @@ export default function Dashboard() {
 
   return (
     <div className={`min-h-screen bg-white ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
-      {/* Header */}
-      <header className="bg-white border-b border-gray-100 px-6 py-6">
-        <div className="flex justify-between items-center max-w-5xl mx-auto">
-          
-          <div className="flex items-center space-x-4">
-            <div className="relative user-menu-container">
-              <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-3 bg-gray-100 hover:bg-gray-200 p-3 rounded-xl transition-colors"
-              >
-                <div className="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">
-                    {user.email?.charAt(0).toUpperCase() || 'U'}
-                  </span>
-                </div>
-                <div>
-                  <span className="font-semibold text-gray-800 text-">
-                    {user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'}
-                  </span>
-                </div>
-                <MoreVertical className='text-gray-800'/>
-              </button>
-              
-              {/* User Dropdown Menu */}
-              {showUserMenu && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-10 animate-in slide-in-from-top-2 fade-in-50 zoom-in-95 duration-300 transform-gpu origin-top-right">
-                  <div className="py-1">
-                    <button
-                      onClick={handleSignOut}
-                      className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium flex items-center space-x-2"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      <span>Sign out</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-          </div>
-          <div className="text-gray-800 px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200">
+      <Header 
+        title="Dashboard" 
+        subtitle="Manage your feedback boards"
+        actions={
+          <a className="text-gray-800 px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200" href='https://fidbaq.xyz/board/fidbaq'>
             💡 Give &quot;fidbaq&quot;
-          </div>
-        </div>
-      </header>
+          </a>
+        }
+      />
 
       {/* Main Content */}
       <div className="max-w-5xl mx-auto px-6 py-12">

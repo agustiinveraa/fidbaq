@@ -191,9 +191,9 @@ export default function BoardPage() {
             <span>←</span>
             <span className="font-medium">Back</span>
           </button>
-          <div className="text-gray-800 px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200">
+          <a className="text-gray-800 px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200" href='https://fidbaq.xyz/board/fidbaq'>
             💡 Give &quot;fidbaq&quot;
-          </div>
+          </a>
         </div>
       </header>
 

@@ -49,10 +49,10 @@ const addToast = (message, type) => {
   const newToast = { id, message, type };
   toastListeners.forEach(listener => listener(newToast));
   
-  // Auto remove after 4 seconds
+  // Auto remove after 3.5 seconds (like iOS)
   setTimeout(() => {
     toastListeners.forEach(listener => listener({ id, remove: true }));
-  }, 4000);
+  }, 3500);
 };
 
 export default function ToastContainer() {
@@ -75,7 +75,7 @@ export default function ToastContainer() {
   }, []);
 
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
+    <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 space-y-3 pt-4">
       {toasts.map((toast) => {
         const config = toastTypes[toast.type];
         const Icon = config.icon;
@@ -84,15 +84,19 @@ export default function ToastContainer() {
           <div
             key={toast.id}
             className={`
-              ${config.bgLight} ${config.borderColor} ${config.textColor}
-              border-l-4 rounded-xl p-4 shadow-lg backdrop-blur-sm
-              animate-in slide-in-from-right-full duration-300
-              max-w-sm min-w-[300px]
+              bg-white border border-gray-200 rounded-2xl p-4 shadow-xl backdrop-blur-lg
+              animate-in slide-in-from-top-2 fade-in-50 duration-500
+              max-w-sm min-w-[280px] mx-auto
             `}
+            style={{
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+            }}
           >
             <div className="flex items-center space-x-3">
-              <Icon className={`w-5 h-5 ${config.textColor}`} />
-              <p className="font-medium">{toast.message}</p>
+              <div className={`w-8 h-8 ${config.bgColor} rounded-full flex items-center justify-center flex-shrink-0`}>
+                <Icon className="w-4 h-4 text-white" />
+              </div>
+              <p className="font-medium text-gray-800 text-sm leading-5">{toast.message}</p>
             </div>
           </div>
         );

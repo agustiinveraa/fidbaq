@@ -16,7 +16,7 @@ export default function Header({ title, subtitle, showUserMenu = true, showLogo 
   };
 
   return (
-    <header className="bg-white border-b border-gray-100 px-6 py-4">
+    <header className="bg-white border-b border-gray-200 px-6 py-4 ">
       <div className="flex justify-between items-center max-w-5xl mx-auto">
         
         <div className="flex items-center space-x-3">

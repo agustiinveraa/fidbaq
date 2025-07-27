@@ -100,7 +100,7 @@ export default function Dashboard() {
   if (authLoading || !user) return null;
 
   return (
-    <div className={`min-h-screen bg-white ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
+    <div className={`min-h-screen bg-gray-50 ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
       <Header 
         title="Dashboard" 
         subtitle="Manage your feedback boards"
@@ -122,7 +122,7 @@ export default function Dashboard() {
         </div>
 
         {/* Create New Board Section */}
-        <div className="bg-gray-50 rounded-2xl p-8 mb-10">
+        <div className="bg-white rounded-2xl p-8 mb-10 shadow-sm border border-gray-200">
           <div className="max-w-md mx-auto text-center">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
               Create New Board
@@ -162,7 +162,7 @@ export default function Dashboard() {
           </div>
 
           {boards.length === 0 ? (
-            <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl">
+            <div className="text-center py-16 border-2 border-dashed border-gray-300 rounded-2xl bg-white">
               <div className="text-gray-400 text-5xl mb-4">📋</div>
               <h3 className="text-xl font-semibold text-gray-600 mb-2">No boards yet</h3>
               <p className="text-gray-500">Create your first board to get started collecting feedback</p>
@@ -173,7 +173,7 @@ export default function Dashboard() {
                 <div
                   key={board.id}
                   onClick={() => handleBoardClick(board.id)}
-                  className="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-emerald-500 hover:shadow-lg transition-all cursor-pointer group hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] transform-gpu duration-200"
+                  className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-emerald-500 hover:shadow-lg transition-all cursor-pointer group hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] transform-gpu duration-200 shadow-sm"
                 >
                   {/* <div className="flex items-center justify-between mb-4">
                     <div className={`w-12 h-12 rounded-lg flex items-center justify-center font-bold text-white text-lg ${

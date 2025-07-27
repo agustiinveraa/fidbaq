@@ -119,8 +119,8 @@ export default function PublicBoardPage() {
 
   if (!board) {
     return (
-      <div className={`min-h-screen bg-white flex items-center justify-center ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
-        <div className="text-center">
+      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
+        <div className="text-center bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Board not found</h1>
           <p className="text-gray-600">This feedback board doesn&apos;t exist or is not public.</p>
         </div>
@@ -129,7 +129,7 @@ export default function PublicBoardPage() {
   }
 
   return (
-    <div className={`min-h-screen bg-white ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
+    <div className={`min-h-screen bg-gray-50 ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
       <Header 
         title={board.name}
         subtitle="Share your feedback and feature requests"
@@ -146,7 +146,7 @@ export default function PublicBoardPage() {
       <div className="max-w-4xl mx-auto px-6 py-8">
         {/* New Post Form */}
         {showNewPostForm && (
-          <div className="bg-gray-50 rounded-2xl p-6 mb-8">
+          <div className="bg-white rounded-2xl p-6 mb-8 shadow-sm border border-gray-200">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Submit New Feedback</h2>
             
             <form onSubmit={handleSubmitPost} className="space-y-4">
@@ -217,7 +217,7 @@ export default function PublicBoardPage() {
           </h2>
 
           {posts.length === 0 ? (
-            <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl">
+            <div className="text-center py-16 border-2 border-dashed border-gray-300 rounded-2xl bg-white">
               <div className="text-gray-400 text-5xl mb-4">💬</div>
               <h3 className="text-xl font-semibold text-gray-600 mb-2">No feedback yet</h3>
               <p className="text-gray-500 mb-4">Be the first to share your ideas!</p>
@@ -235,7 +235,7 @@ export default function PublicBoardPage() {
                 return (
                   <div
                     key={post.id}
-                    className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-emerald-500 transition-all animate-in fade-in-50 slide-in-from-bottom-4 duration-300"
+                    className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-emerald-500 transition-all animate-in fade-in-50 slide-in-from-bottom-4 duration-300 shadow-sm"
                     style={{ animationDelay: `${posts.indexOf(post) * 100}ms` }}
                   >
                     <div className="flex items-start justify-between">

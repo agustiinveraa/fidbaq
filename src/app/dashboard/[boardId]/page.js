@@ -8,7 +8,6 @@ import { Bricolage_Grotesque } from 'next/font/google';
 import { ArrowUpRight, CopyCheck, Delete, DeleteIcon, Trash2 } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { toast } from '@/components/Toast';
-import { confirmModal } from '@/components/ConfirmModal';
 import AnimatedDropdown from '@/components/AnimatedDropdown';
 
 const bricolageGrotesque = Bricolage_Grotesque({
@@ -107,12 +106,7 @@ export default function BoardPage() {
   const handleDeleteBoard = async () => {
     if (!board) return;
     
-    const confirmed = await confirmModal.show(
-      'Delete Board',
-      'Are you sure you want to delete this board? This action cannot be undone.',
-      'Delete',
-      'Cancel'
-    );
+    const confirmed = window.confirm('Are you sure you want to delete this board? This action cannot be undone.');
     
     if (confirmed) {
       const { error } = await deleteBoard(board.id);
@@ -165,8 +159,8 @@ export default function BoardPage() {
 
   if (!board) {
     return (
-      <div className={`min-h-screen bg-white flex items-center justify-center ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
-        <div className="text-center">
+      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
+        <div className="text-center bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Board not found</h1>
           <button
             onClick={() => router.push('/dashboard')}
@@ -180,9 +174,9 @@ export default function BoardPage() {
   }
 
   return (
-    <div className={`min-h-screen bg-white ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
+    <div className={`min-h-screen bg-gray-50 ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 px-6 py-6">
+      <header className="bg-white border-b border-gray-200 px-6 py-6 shadow-sm">
         <div className="flex justify-between items-center max-w-6xl mx-auto">
           <button 
             onClick={handleBack}
@@ -290,7 +284,7 @@ export default function BoardPage() {
                   return (
                     <div
                       key={post.id}
-                      className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-emerald-500 transition-all animate-in fade-in-50 slide-in-from-bottom-4 duration-300"
+                      className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-emerald-500 transition-all animate-in fade-in-50 slide-in-from-bottom-4 duration-300 shadow-sm"
                       style={{ animationDelay: `${posts.indexOf(post) * 100}ms` }}
                     >
                       <div className="flex items-start justify-between">

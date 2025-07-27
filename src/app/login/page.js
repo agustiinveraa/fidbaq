@@ -70,7 +70,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={`min-h-screen bg-white flex items-center justify-center px-6 ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
+    <div className={`min-h-screen bg-gray-50 flex items-center justify-center px-6 ${bricolageGrotesque.variable}`} style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">

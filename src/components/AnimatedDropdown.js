@@ -43,7 +43,7 @@ export default function AnimatedDropdown({ value, onChange, options, className =
                 onChange(option.value);
                 setIsOpen(false);
               }}
-              className="w-full text-left px-3 py-2 text-xs hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] transform-gpu flex items-center space-x-2 text-gray-800 font-medium"
+              className="w-full text-left px-3 py-1 text-xs hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] transform-gpu flex items-center space-x-2 text-gray-800 font-medium"
             >
               <span>{option.emoji}</span>
               <span>{option.label}</span>

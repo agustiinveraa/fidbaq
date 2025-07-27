@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { Crown, LogOut } from 'lucide-react';
 
 export default function Header({ title, subtitle, showUserMenu = true, showLogo = true, actions = null }) {
   const { user, signOut } = useAuth();
@@ -75,14 +76,20 @@ export default function Header({ title, subtitle, showUserMenu = true, showLogo 
               {/* User Dropdown Menu */}
               {showDropdown && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-10 animate-in slide-in-from-top-2 fade-in-50 zoom-in-95 duration-300 transform-gpu origin-top-right">
-                  <div className="py-1">
+                  <div className="p-1">
+                    <button
+                    //TODO: COMING SOON
+                    //   onClick={alert("Coming soon...")} 
+                      className="w-full text-left px-4 py-1 text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium flex items-center space-x-2"
+                    >
+                      <Crown className='w-4'></Crown>
+                      <span>Upgrade</span>
+                    </button>
                     <button
                       onClick={handleSignOut}
-                      className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium flex items-center space-x-2"
+                      className="w-full text-left px-4 py-1 text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium flex items-center space-x-2"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
+                      <LogOut className='w-4' />
                       <span>Sign out</span>
                     </button>
                   </div>

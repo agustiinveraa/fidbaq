@@ -48,7 +48,7 @@ export default function Terms() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              By accessing and using Fidbaq ("the Service"), you accept and agree to be bound by the terms and provision of this agreement.
+              By accessing and using Fidbaq (&ldquo;the Service&rdquo;), you accept and agree to be bound by the terms and provision of this agreement.
               If you do not agree to abide by the above, please do not use this service.
             </p>
           </section>
@@ -118,7 +118,7 @@ export default function Terms() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Disclaimers and Limitation of Liability</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              The Service is provided "as is" without warranties of any kind. We disclaim all warranties, express or implied,
+              The Service is provided &ldquo;as is&rdquo; without warranties of any kind. We disclaim all warranties, express or implied,
               including but not limited to implied warranties of merchantability and fitness for a particular purpose.
             </p>
             <p className="text-gray-700 leading-relaxed mb-4">

@@ -350,7 +350,7 @@ export default function Home() {
             <p className="text-sm sm:text-base text-gray-600 ">
               By{' '}
               <a 
-                href="https://agustinvera.xyz" 
+                href="https://github.com/agustiinveraa" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"

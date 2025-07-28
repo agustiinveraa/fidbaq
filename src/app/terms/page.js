@@ -141,8 +141,7 @@ export default function Terms() {
               If you have any questions about these Terms of Service, please contact us at:
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Email: support@fidbaq.com<br />
-              Website: <a href="https://agustinvera.xyz" className="text-emerald-600 hover:text-emerald-700">https://agustinvera.xyz</a>
+              Email: agustinvera.developer@gmail.com<br />
             </p>
           </section>
         </div>
@@ -154,7 +153,7 @@ export default function Terms() {
             <p className="text-sm sm:text-base text-gray-600 ">
               By{' '}
               <a 
-                href="https://agustinvera.xyz" 
+                href="https://github.com/agustiinveraa" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"

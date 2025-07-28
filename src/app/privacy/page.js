@@ -180,8 +180,7 @@ export default function Privacy() {
               If you have any questions about this Privacy Policy, please contact us:
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Email: privacy@fidbaq.com<br />
-              Website: <a href="https://agustinvera.xyz" className="text-emerald-600 hover:text-emerald-700">https://agustinvera.xyz</a>
+              Email: agustinvera.developer@gmail.com<br />
             </p>
           </section>
         </div>
@@ -193,7 +192,7 @@ export default function Privacy() {
             <p className="text-sm sm:text-base text-gray-600 ">
               By{' '}
               <a 
-                href="https://agustinvera.xyz" 
+                href="https://github.com/agustiinveraa" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"

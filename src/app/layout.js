@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "",
-  description: "Listen. Improve. Launch. | fidbaq",
+  title: "Fidbaq - Build features your users actually need",
+  description: "Fidbaq helps you collect, organize, and act on user feedback — so you can focus on building features that matter. Start for free!",
   icons: {
-    icon: '/logo.svg',
-    shortcut: '/logo.svg',
-    apple: '/logo.svg',
+    icon: '/1.png',
+    shortcut: '/1.png',
+    apple: '/1.png',
   },
 };
 

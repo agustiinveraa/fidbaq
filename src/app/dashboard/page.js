@@ -105,7 +105,7 @@ export default function Dashboard() {
         title="Dashboard" 
         subtitle="Manage your feedback boards"
         actions={
-          <a className="text-gray-800 px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200" href='https://fidbaq.xyz/board/fidbaq'>
+          <a className="text-gray-800 px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200" href='https://www.fidbaq.xyz/board/fidbaq-fqizgu'>
             💡 Give &quot;fidbaq&quot;
           </a>
         }

@@ -4,9 +4,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Bricolage_Grotesque } from 'next/font/google';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { MessageSquarePlus, Users, MessageCircle, ArrowRight, Star, CheckCircle } from 'lucide-react';
+import Image from 'next/image';
 
-const bricolageGrotesque = Bricolage_Grotesque({
+const __Bricolage_Grotesque_e97790 = Bricolage_Grotesque({
   subsets: ['latin'],
   variable: '--font-bricolage-grotesque',
 });
@@ -15,19 +16,359 @@ export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
+  // Mock feedback data
+  const mockFeedback = [
+    {
+      id: 1,
+      title: "Add dark mode toggle",
+      description: "It would be great to have a dark mode option for better eye comfort during night use.",
+      author: "Sarah M.",
+      votes: 24,
+      status: "in_progress",
+      emoji: "🌙"
+    },
+    {
+      id: 2,
+      title: "Mobile app version",
+      description: "Please consider creating a mobile app for iOS and Android. The web version is great but native would be amazing!",
+      author: "Alex K.",
+      votes: 18,
+      status: "pending",
+      emoji: "📱"
+    }
+  ];
+
+  const statusConfig = {
+    'pending': { label: 'Pending', color: 'bg-yellow-500' },
+    'in_progress': { label: 'In Progress', color: 'bg-blue-500' },
+    'completed': { label: 'Completed', color: 'bg-emerald-500' },
+    'rejected': { label: 'Rejected', color: 'bg-red-500' }
+  };
+
   useEffect(() => {
-    if (!loading) {
-      if (user) {
-        router.push('/dashboard');
-      } else {
-        router.push('/login');
-      }
+    if (!loading && user) {
+      router.push('/dashboard');
     }
   }, [user, loading, router]);
 
   if (loading) {
-    return <LoadingSpinner message="Redirigiendo..." />;
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
   }
 
-  return null;
+  if (user) {
+    return null;
+  }
+
+  return (
+    <div className={`min-h-screen bg-white text-gray-900 ${__Bricolage_Grotesque_e97790.className}`}>
+      {/* Header */}
+      <header className="px-4 sm:px-6 py-4 sm:py-6 bg-white/80 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <Image 
+              src="/logo.svg" 
+              alt="Fidbaq Logo" 
+              width={32}
+              height={32}
+              className="w-6 h-6 sm:w-8 sm:h-8"
+            />
+            <span className="text-lg sm:text-xl font-bold text-gray-900">Fidbaq</span>
+          </div>
+          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <a href="#demo" className="text-gray-600 hover:text-gray-900 transition-colors font-medium">Demo</a>
+            <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors font-medium">Pricing</a>
+          </nav>
+          <button
+            onClick={() => router.push('/login')}
+            className="bg-gray-900 hover:bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu shadow-lg hover:shadow-xl"
+          >
+            Get Started
+          </button>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <main className="overflow-hidden">
+        <div className='flex flex-col lg:flex-row justify-center items-start gap-8 lg:gap-16 max-w-7xl mx-auto px-6'>
+        <section className="pt-12 lg:pt-20 pb-16 lg:pb-32 flex-1">
+          <div className="max-w-3xl mx-auto lg:mx-0">
+            {/* Badge */}
+            <div className="inline-flex items-center bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-semibold mb-2 border border-emerald-200">
+              <Star className="w-4 h-4 mr-2" />
+              The easiest way to build what your users want
+            </div>
+
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-gray-900 via-gray-800 to-emerald-600 bg-clip-text text-transparent">
+              Build features
+              <br />
+                your users actually need
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl leading-relaxed font-light">
+              Fidbaq helps you collect, organize, and act on user feedback — so you can focus on building features that matter.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+              <button
+                onClick={() => router.push('/login')}
+                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-8 lg:px-10 py-4 lg:py-5 rounded-2xl font-bold text-base lg:text-lg transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center sm:justify-start w-full sm:w-auto"
+              >
+                <MessageSquarePlus className="w-5 h-5 lg:w-6 lg:h-6 mr-3" />
+                Start collecting feedback
+              </button>
+
+              <div className="flex items-center text-gray-500 text-base lg:text-lg w-full sm:w-auto">
+                <CheckCircle className="w-4 h-4 lg:w-5 lg:h-5 mr-3 text-emerald-500 flex-shrink-0" />
+                Free forever • No credit card required
+              </div>
+            </div>
+
+            
+          </div>
+        </section>
+
+        <section id="demo" className="py-8 lg:py-16 flex-1 lg:flex-shrink-0 lg:w-96">
+          <div className="max-w-md mx-auto lg:max-w-lg">
+          
+
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-xl backdrop-blur-xl">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg">
+                    <MessageSquarePlus className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900">Feedback Board</h3>
+                    <p className="text-gray-500 text-xs sm:text-sm">{mockFeedback.length} posts</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3 sm:space-y-4">
+                {mockFeedback.map((post, index) => {
+                  const status = statusConfig[post.status];
+                  return (
+                    <div
+                      key={post.id}
+                      className="bg-white border border-gray-200 rounded-xl p-3 sm:p-4 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 group"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                            {post.title}
+                          </h3>
+                          <p className="text-gray-600 mb-3 leading-relaxed text-xs sm:text-sm">{post.description}</p>
+                          <div className="flex items-center space-x-2">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              post.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                              post.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                              post.status === 'completed' ? 'bg-emerald-100 text-emerald-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {post.status === 'pending' ? '⏳' :
+                               post.status === 'in_progress' ? '🚧' :
+                               post.status === 'completed' ? '✅' :
+                               '❌'} {status.label}
+                            </span>
+                            <span className="text-xs text-gray-500 truncate">
+                              by {post.author}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-1 sm:space-x-2 ml-3 sm:ml-4 flex-shrink-0">
+                          <button className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 rounded-lg font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95 transform-gpu shadow-lg hover:shadow-emerald-500/25">
+                            ↑
+                          </button>
+                          <div className="bg-gray-100 text-gray-900 px-2 py-1 rounded-lg font-bold min-w-[2rem] sm:min-w-[2.5rem] text-center text-xs sm:text-sm">
+                            {post.votes}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 sm:mt-6 text-center">
+                <button
+                  onClick={() => router.push('/login')}
+                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu shadow-lg hover:shadow-emerald-500/25"
+                >
+                  Create your board
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        </div>
+
+        {/* Problem Section */}
+        <section className="px-6 py-14 sm:py-16 lg:py-18">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900">
+                Stop building features nobody wants
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+                80% of product features are never or rarely used. Don&apos;t be part of that statistic.
+              </p>
+            </div>
+
+            {/* Step by Step Process */}
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-900">
+                The Smart Way to Build
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="relative">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-lg sm:text-xl mb-4 mx-auto">
+                    1
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-bold mb-3 text-gray-900">Collect Feedback</h4>
+                                    <p className="text-sm sm:text-base text-gray-600">
+                    Create your board and let users easily submit ideas, bugs, and suggestions
+                  </p>
+                  {/* Curved Arrow */}
+                  <div className="absolute top-6 -right-8 sm:-right-12 hidden lg:block">
+                    <svg className="w-12 h-12 fill-emerald-400 opacity-70 -rotate-90" viewBox="0 0 138 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M72.9644 5.31431C98.8774 43.8211 83.3812 88.048 54.9567 120.735C54.4696 121.298 54.5274 122.151 55.0896 122.639C55.6518 123.126 56.5051 123.068 56.9922 122.506C86.2147 88.9044 101.84 43.3918 75.2003 3.80657C74.7866 3.18904 73.9486 3.02602 73.3287 3.44222C72.7113 3.85613 72.5484 4.69426 72.9644 5.31431Z"></path>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M56.5084 121.007C56.9835 118.685 57.6119 115.777 57.6736 115.445C59.3456 106.446 59.5323 97.67 58.4433 88.5628C58.3558 87.8236 57.6824 87.2948 56.9433 87.3824C56.2042 87.4699 55.6756 88.1435 55.7631 88.8828C56.8219 97.7138 56.6432 106.225 55.0203 114.954C54.926 115.463 53.5093 121.999 53.3221 123.342C53.2427 123.893 53.3688 124.229 53.4061 124.305C53.5887 124.719 53.8782 124.911 54.1287 125.015C54.4123 125.13 54.9267 125.205 55.5376 124.926C56.1758 124.631 57.3434 123.699 57.6571 123.487C62.3995 120.309 67.4155 116.348 72.791 113.634C77.9171 111.045 83.3769 109.588 89.255 111.269C89.9704 111.475 90.7181 111.057 90.9235 110.342C91.1288 109.626 90.7117 108.878 89.9963 108.673C83.424 106.794 77.3049 108.33 71.5763 111.223C66.2328 113.922 61.2322 117.814 56.5084 121.007Z"></path>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-lg sm:text-xl mb-4 mx-auto">
+                    2
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-bold mb-3 text-gray-900">Prioritize Features</h4>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    Users vote for what they want most. Data tells you what to build first
+                  </p>
+                  {/* Curved Arrow */}
+                  <div className="absolute top-6 -right-8 sm:-right-12 hidden lg:block">
+                    <svg className="w-12 h-12 fill-emerald-400 opacity-70 -rotate-90" viewBox="0 0 138 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M72.9644 5.31431C98.8774 43.8211 83.3812 88.048 54.9567 120.735C54.4696 121.298 54.5274 122.151 55.0896 122.639C55.6518 123.126 56.5051 123.068 56.9922 122.506C86.2147 88.9044 101.84 43.3918 75.2003 3.80657C74.7866 3.18904 73.9486 3.02602 73.3287 3.44222C72.7113 3.85613 72.5484 4.69426 72.9644 5.31431Z"></path>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M56.5084 121.007C56.9835 118.685 57.6119 115.777 57.6736 115.445C59.3456 106.446 59.5323 97.67 58.4433 88.5628C58.3558 87.8236 57.6824 87.2948 56.9433 87.3824C56.2042 87.4699 55.6756 88.1435 55.7631 88.8828C56.8219 97.7138 56.6432 106.225 55.0203 114.954C54.926 115.463 53.5093 121.999 53.3221 123.342C53.2427 123.893 53.3688 124.229 53.4061 124.305C53.5887 124.719 53.8782 124.911 54.1287 125.015C54.4123 125.13 54.9267 125.205 55.5376 124.926C56.1758 124.631 57.3434 123.699 57.6571 123.487C62.3995 120.309 67.4155 116.348 72.791 113.634C77.9171 111.045 83.3769 109.588 89.255 111.269C89.9704 111.475 90.7181 111.057 90.9235 110.342C91.1288 109.626 90.7117 108.878 89.9963 108.673C83.424 106.794 77.3049 108.33 71.5763 111.223C66.2328 113.922 61.2322 117.814 56.5084 121.007Z"></path>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-lg sm:text-xl mb-4 mx-auto">
+                    3
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-bold mb-3 text-gray-900">Launch with Validation</h4>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    Build with confidence knowing there&apos;s real demand for your product
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            
+          </div>
+        </section>
+
+        {/* Pricing Section */}
+        <section id="pricing" className="px-6 py-14 sm:py-16 lg:py-18 bg-white">
+          <div className="max-w-6xl mx-auto text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900">Simple pricing</h2>
+            <p className="text-lg sm:text-xl text-gray-600 mb-12 sm:mb-16">Start for free, upgrade when you need more</p>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
+              {/* Free Plan */}
+              <div id="free-plan" className="bg-white border-2 border-gray-200 rounded-3xl p-6 sm:p-8 lg:p-10 relative hover:border-emerald-300 transition-all duration-300 hover:shadow-xl">
+                <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900">Free</h3>
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 text-gray-900">$0</div>
+                <ul className="text-left space-y-3 sm:space-y-4 mb-8 sm:mb-10">
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-gray-700">Unlimited feedback boards</span>
+                  </li>
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-gray-700">Basic analytics</span>
+                  </li>
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-gray-700">Public board sharing</span>
+                  </li>
+                </ul>
+                <button 
+                  onClick={() => router.push('/login')}
+                  className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu"
+                >
+                  Get Started
+                </button>
+              </div>
+
+              {/* Pro Plan */}
+              <div id="pro-plan" className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl p-6 sm:p-8 lg:p-10 relative shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 transform-gpu">
+                <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-yellow-400 text-gray-900 px-4 sm:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg">
+                    Coming Soon
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-white">Pro</h3>
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 text-white">
+                  $9<span className="text-xl sm:text-2xl">/mo</span>
+                </div>
+                <ul className="text-left space-y-3 sm:space-y-4 mb-8 sm:mb-10">
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-white">Everything in Free</span>
+                  </li>
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-white">Team collaborators</span>
+                  </li>
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-white">Comments on feedback</span>
+                  </li>
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-white">Advanced analytics</span>
+                  </li>
+                </ul>
+                <button className="w-full bg-white text-emerald-600 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg opacity-75 cursor-not-allowed">
+                  Coming Soon
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+
+        {/* Footer */}
+        <footer className="px-4 sm:px-6 py-4 sm:py-5 bg-gray-50 border-t border-gray-200">
+          <div className="max-w-6xl mx-auto text-center">
+            <p className="text-sm sm:text-base text-gray-600">
+              Made with ❤️ by{' '}
+              <a 
+                href="https://agustinvera.xyz" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"
+              >
+                Agus
+              </a>
+            </p>
+          </div>
+        </footer>
+      </main>
+    </div>
+  );
 }

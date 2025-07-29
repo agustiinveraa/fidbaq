@@ -311,6 +311,10 @@ export default function Home() {
                     <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 mr-3 sm:mr-4 flex-shrink-0" />
                     <span className="text-gray-700">Public board sharing</span>
                   </li>
+                  <li className="flex items-center text-base sm:text-lg">
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-gray-500">Comments on feedback <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full ml-2">Coming Soon</span></span>
+                  </li>
                 </ul>
                 <button 
                   onClick={() => router.push('/login')}
@@ -328,8 +332,8 @@ export default function Home() {
                   </span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-white">Pro</h3>
-                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 text-white">
-                  9<span className='text-3xl'>€</span><span className="text-xl sm:text-2xl">/mo</span>
+                <div className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-white opacity-75">
+                  To be determined
                 </div>
                 <ul className="text-left space-y-3 sm:space-y-4 mb-8 sm:mb-10">
                   <li className="flex items-center text-base sm:text-lg">
@@ -339,10 +343,6 @@ export default function Home() {
                   <li className="flex items-center text-base sm:text-lg">
                     <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />
                     <span className="text-white">Team collaborators</span>
-                  </li>
-                  <li className="flex items-center text-base sm:text-lg">
-                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />
-                    <span className="text-white">Comments on feedback</span>
                   </li>
                   <li className="flex items-center text-base sm:text-lg">
                     <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3 sm:mr-4 flex-shrink-0" />

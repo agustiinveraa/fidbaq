@@ -115,11 +115,25 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
               <button
                 onClick={() => router.push('/login')}
-                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-8 lg:px-10 py-4 lg:py-5 rounded-2xl font-bold text-base lg:text-lg transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center sm:justify-start w-full sm:w-auto"
+                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-2xl font-bold text-sm transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center w-[250px] h-[54px]"
               >
-                <MessageSquarePlus className="w-5 h-5 lg:w-6 lg:h-6 mr-3" />
+                <MessageSquarePlus className="w-5 h-5 mr-3" />
                 Start collecting feedback
               </button>
+              
+              <a 
+                href="https://www.producthunt.com/products/fidbaq?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-fidbaq" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image 
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=998711&theme=light&t=1753778522537" 
+                  alt="Fidbaq - Turn user feedback into your product roadmap — fast & free. | Product Hunt" 
+                  width={250} 
+                  height={54}
+                  className="hover:scale-105 transition-transform duration-300"
+                />
+              </a>
             </div>
 
             

@@ -192,12 +192,12 @@ export default function Privacy() {
             <p className="text-sm sm:text-base text-gray-600 ">
               By{' '}
               <a 
-                href="https://github.com/agustiinveraa" 
+                href="https://x.com/agus__xyz" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"
               >
-                @agustiinveraa
+                Agustín Vera
               </a>
             </p>
             <div className="flex justify-center items-center gap-4 text-xs sm:text-sm text-gray-500">

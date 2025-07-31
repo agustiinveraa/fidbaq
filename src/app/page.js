@@ -312,8 +312,8 @@ export default function Home() {
                     <span className="text-gray-700">Public board sharing</span>
                   </li>
                   <li className="flex items-center text-base sm:text-lg">
-                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 mr-3 sm:mr-4 flex-shrink-0" />
-                    <span className="text-gray-500">Comments on feedback <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full ml-2">Coming Soon</span></span>
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 mr-3 sm:mr-4 flex-shrink-0" />
+                    <span className="text-gray-700">Comments on feedback <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full ml-2">New!</span></span>
                   </li>
                 </ul>
                 <button 

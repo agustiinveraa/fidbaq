@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import Header from '@/components/Header';
 import { toast } from '@/components/Toast';
 import { useAuth } from '@/contexts/AuthContext';
+import Comments from '@/components/Comments';
 
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -273,6 +274,9 @@ export default function PublicBoardPage() {
                         </div>
                       </div>
                     </div>
+                    
+                    {/* Comments Section */}
+                    <Comments postId={post.id} isPublicBoard={true} />
                   </div>
                 );
               })}

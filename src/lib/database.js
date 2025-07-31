@@ -418,3 +418,255 @@ export async function updatePostVoteCount(postId) {
     console.error('Error in updatePostVoteCount:', error)
   }
 }
+
+// =============================================
+// COMMENTS FUNCTIONS
+// =============================================
+
+/**
+ * Get all comments for a specific post
+ */
+export async function getPostComments(postId) {
+  const { data, error } = await supabase
+    .from('comments')
+    .select('*')
+    .eq('post_id', postId)
+    .order('created_at', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching post comments:', error)
+    return { data: null, error }
+  }
+
+  return { data, error: null }
+}
+
+/**
+ * Create a new comment
+ */
+export async function createComment(commentData) {
+  const { 
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  // Check if user is authenticated
+  if (user) {
+    // Authenticated user comment
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([
+        {
+          content: commentData.content,
+          post_id: commentData.post_id,
+          author_id: user.id,
+          author_email: user.email,
+          author_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous'
+        }
+      ])
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error creating comment:', error)
+      return { data: null, error }
+    }
+
+    return { data, error: null }
+  } else {
+    // Anonymous user comment (for public boards)
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([
+        {
+          content: commentData.content,
+          post_id: commentData.post_id,
+          author_email: commentData.author_email || null,
+          author_name: commentData.author_name || 'Anonymous'
+        }
+      ])
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error creating anonymous comment:', error)
+      return { data: null, error }
+    }
+
+    return { data, error: null }
+  }
+}
+
+/**
+ * Update an existing comment
+ */
+export async function updateComment(commentId, content) {
+  const { 
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { data: null, error: { message: 'User not authenticated' } }
+  }
+
+  const { data, error } = await supabase
+    .from('comments')
+    .update({ 
+      content,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', commentId)
+    .eq('author_id', user.id) // Only allow updating own comments
+    .select()
+    .single()
+
+  if (error) {
+    console.error('Error updating comment:', error)
+    return { data: null, error }
+  }
+
+  return { data, error: null }
+}
+
+/**
+ * Delete a comment
+ */
+export async function deleteComment(commentId) {
+  try {
+    const { 
+      data: { user }
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      console.log('User not authenticated for comment deletion');
+      return { data: null, error: { message: 'User not authenticated' } }
+    }
+
+    console.log('Attempting to delete comment:', { commentId, userId: user.id });
+
+    // First, verify the comment exists and belongs to the user
+    const { data: existingComment, error: fetchError } = await supabase
+      .from('comments')
+      .select('id, author_id, author_name, content')
+      .eq('id', commentId)
+      .single()
+
+    if (fetchError) {
+      console.error('Error fetching comment for deletion:', fetchError);
+      return { data: null, error: fetchError }
+    }
+
+    if (!existingComment) {
+      console.error('Comment not found');
+      return { data: null, error: { message: 'Comment not found' } }
+    }
+
+    console.log('Comment found:', existingComment);
+    console.log('User attempting deletion:', user.id);
+    console.log('Comment author:', existingComment.author_id);
+
+    // Check if user is the author
+    if (existingComment.author_id !== user.id) {
+      console.error('User not authorized to delete this comment');
+      return { data: null, error: { message: 'Not authorized to delete this comment' } }
+    }
+
+    // Attempt deletion
+    const { error: deleteError, count } = await supabase
+      .from('comments')
+      .delete({ count: 'exact' })
+      .eq('id', commentId)
+      .eq('author_id', user.id)
+
+    if (deleteError) {
+      console.error('Error deleting comment:', deleteError);
+      return { data: null, error: deleteError }
+    }
+
+    console.log('Delete operation completed. Rows affected:', count);
+
+    if (count === 0) {
+      console.warn('No rows were deleted. This might indicate a permissions issue.');
+      return { data: null, error: { message: 'Failed to delete comment - no rows affected' } }
+    }
+
+    console.log('Comment deleted successfully');
+    return { data: true, error: null }
+  } catch (err) {
+    console.error('Unexpected error in deleteComment:', err);
+    return { data: null, error: { message: 'Unexpected error occurred', details: err.message } }
+  }
+}
+
+/**
+ * Alternative delete comment function using RPC (Remote Procedure Call)
+ * This can bypass RLS policies if needed
+ */
+export async function deleteCommentRPC(commentId) {
+  try {
+    const { 
+      data: { user }
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { data: null, error: { message: 'User not authenticated' } }
+    }
+
+    console.log('Attempting RPC delete for comment:', { commentId, userId: user.id });
+
+    // Use RPC to call a database function
+    const { data, error } = await supabase.rpc('delete_user_comment', {
+      comment_id: commentId,
+      user_id: user.id
+    });
+
+    if (error) {
+      console.error('RPC delete error:', error);
+      return { data: null, error }
+    }
+
+    console.log('RPC delete result:', data);
+    return { data: data, error: null }
+  } catch (err) {
+    console.error('Unexpected error in deleteCommentRPC:', err);
+    return { data: null, error: { message: 'Unexpected error occurred', details: err.message } }
+  }
+}
+
+/**
+ * Simple delete comment function - bypasses some checks
+ */
+export async function deleteCommentSimple(commentId) {
+  try {
+    const { 
+      data: { user }
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { data: null, error: { message: 'User not authenticated' } }
+    }
+
+    console.log('Simple delete attempt for comment:', commentId);
+
+    // Direct delete without pre-checks
+    const { error, count } = await supabase
+      .from('comments')
+      .delete({ count: 'exact' })
+      .match({ id: commentId, author_id: user.id })
+
+    if (error) {
+      console.error('Simple delete error:', error);
+      return { data: null, error }
+    }
+
+    console.log('Simple delete rows affected:', count);
+    
+    if (count === 0) {
+      return { data: null, error: { message: 'No comment found to delete or not authorized' } }
+    }
+
+    return { data: true, error: null }
+  } catch (err) {
+    console.error('Unexpected error in deleteCommentSimple:', err);
+    return { data: null, error: { message: 'Unexpected error occurred', details: err.message } }
+  }
+}

@@ -9,6 +9,7 @@ import { ArrowUpRight, CopyCheck, Delete, DeleteIcon, Trash2 } from 'lucide-reac
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { toast } from '@/components/Toast';
 import AnimatedDropdown from '@/components/AnimatedDropdown';
+import Comments from '@/components/Comments';
 
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -324,6 +325,9 @@ export default function BoardPage() {
                           </div>
                         </div>
                       </div>
+                      
+                      {/* Comments Section */}
+                      <Comments postId={post.id} isPublicBoard={false} />
                     </div>
                   );
                 })}

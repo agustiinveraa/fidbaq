@@ -25,10 +25,8 @@ export default function Comments({ postId, isPublicBoard = false }) {
       const { data, error } = await getPostComments(postId);
       
       if (error) {
-        console.error('Error loading comments:', error);
         toast.error('Error loading comments');
       } else {
-        console.log('Loaded comments:', data);
         setComments(data || []);
       }
       setLoading(false);
@@ -42,7 +40,6 @@ export default function Comments({ postId, isPublicBoard = false }) {
     const { data, error } = await getPostComments(postId);
     
     if (error) {
-      console.error('Error loading comments:', error);
       toast.error('Error loading comments');
     } else {
       setComments(data || []);
@@ -74,7 +71,6 @@ export default function Comments({ postId, isPublicBoard = false }) {
     const { data, error } = await createComment(commentData);
     
     if (error) {
-      console.error('Error creating comment:', error);
       toast.error('Error posting comment');
     } else {
       setComments([...comments, data]);
@@ -94,7 +90,6 @@ export default function Comments({ postId, isPublicBoard = false }) {
     const { data, error } = await updateComment(commentId, editContent.trim());
     
     if (error) {
-      console.error('Error updating comment:', error);
       toast.error('Error updating comment');
     } else {
       setComments(comments.map(comment => 
@@ -110,31 +105,24 @@ export default function Comments({ postId, isPublicBoard = false }) {
     if (!confirm('Are you sure you want to delete this comment?')) return;
 
     try {
-      console.log('Deleting comment with ID:', commentId);
-      
       // Try multiple deletion methods
       let result = await deleteComment(commentId);
       
       if (result.error) {
-        console.log('Standard delete failed, trying simple method:', result.error);
         result = await deleteCommentSimple(commentId);
       }
       
       if (result.error) {
-        console.log('Simple delete failed, trying RPC method:', result.error);
         result = await deleteCommentRPC(commentId);
       }
       
       if (result.error) {
-        console.error('All delete methods failed:', result.error);
         toast.error(`Error deleting comment: ${result.error.message}`);
       } else {
-        console.log('Comment deleted successfully');
         setComments(comments.filter(comment => comment.id !== commentId));
         toast.success('Comment deleted!');
       }
     } catch (err) {
-      console.error('Unexpected error deleting comment:', err);
       toast.error('Unexpected error occurred while deleting comment');
     }
   };
@@ -286,7 +274,6 @@ export default function Comments({ postId, isPublicBoard = false }) {
                         </button>
                         <button
                           onClick={() => {
-                            console.log('Deleting comment:', comment.id, 'User ID:', user?.id, 'Comment author ID:', comment.author_id);
                             handleDeleteComment(comment.id);
                           }}
                           className="p-1 text-gray-400 hover:text-red-600 transition-colors"

@@ -23,7 +23,6 @@ export async function getUserBoards() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching user boards:', error)
     return { data: null, error }
   }
 
@@ -41,7 +40,6 @@ export async function getBoardById(boardId) {
     .single()
 
   if (error) {
-    console.error('Error fetching board:', error)
     return { data: null, error }
   }
 
@@ -60,7 +58,6 @@ export async function getBoardByPublicLink(publicLink) {
     .single()
 
   if (error) {
-    console.error('Error fetching board by public link:', error)
     return { data: null, error }
   }
 
@@ -102,7 +99,6 @@ export async function createBoard(boardData) {
     .single()
 
   if (error) {
-    console.error('Error creating board:', error)
     return { data: null, error }
   }
 
@@ -121,7 +117,6 @@ export async function updateBoard(boardId, updates) {
     .single()
 
   if (error) {
-    console.error('Error updating board:', error)
     return { data: null, error }
   }
 
@@ -138,7 +133,6 @@ export async function deleteBoard(boardId) {
     .eq('id', boardId)
 
   if (error) {
-    console.error('Error deleting board:', error)
     return { error }
   }
 
@@ -153,18 +147,13 @@ export async function deleteBoard(boardId) {
  * Get all posts for a board
  */
 export async function getBoardPosts(boardId) {
-  console.log('Fetching posts for board:', boardId);
-  
   const { data, error } = await supabase
     .from('posts')
     .select('*')
     .eq('board_id', boardId)
     .order('created_at', { ascending: false })
 
-  console.log('Posts data received:', data);
-
   if (error) {
-    console.error('Error fetching board posts:', error)
     return { data: null, error }
   }
 
@@ -201,7 +190,6 @@ export async function createPost(postData) {
     .single()
 
   if (error) {
-    console.error('Error creating post:', error)
     return { data: null, error }
   }
 
@@ -212,7 +200,6 @@ export async function createPost(postData) {
  * Update post status
  */
 export async function updatePostStatus(postId, status) {
-  console.log('Updating post status:', { postId, status });
   
   const { data, error } = await supabase
     .from('posts')
@@ -220,10 +207,8 @@ export async function updatePostStatus(postId, status) {
     .eq('id', postId)
     .select()
 
-  console.log('Update result:', { data, error });
 
   if (error) {
-    console.error('Error updating post status:', error)
     return { data: null, error }
   }
 
@@ -244,7 +229,6 @@ export async function deletePost(postId) {
     .eq('id', postId)
 
   if (error) {
-    console.error('Error deleting post:', error)
     return { error }
   }
 
@@ -259,13 +243,11 @@ export async function deletePost(postId) {
  * Vote on a post
  */
 export async function voteOnPost(postId, voteType = 'upvote') {
-  console.log('Voting on post:', { postId, voteType });
   
   const { 
     data: { user }
   } = await supabase.auth.getUser()
 
-  console.log('User voting:', user?.id);
 
   // Check if user already voted
   let existingVoteQuery = supabase
@@ -283,10 +265,8 @@ export async function voteOnPost(postId, voteType = 'upvote') {
 
   const { data: existingVotes, error: voteCheckError } = await existingVoteQuery
 
-  console.log('Existing votes:', existingVotes);
 
   if (voteCheckError) {
-    console.error('Error checking existing vote:', voteCheckError)
     return { data: null, error: voteCheckError }
   }
 
@@ -302,7 +282,6 @@ export async function voteOnPost(postId, voteType = 'upvote') {
         .eq('id', existingVote.id)
 
       if (error) {
-        console.error('Error removing vote:', error)
         return { data: null, error }
       }
 
@@ -319,7 +298,6 @@ export async function voteOnPost(postId, voteType = 'upvote') {
         .select()
 
       if (error) {
-        console.error('Error updating vote:', error)
         return { data: null, error }
       }
 
@@ -345,11 +323,9 @@ export async function voteOnPost(postId, voteType = 'upvote') {
       .select()
 
     if (error) {
-      console.error('Error creating vote:', error)
       return { data: null, error }
     }
 
-    console.log('Vote created:', data[0]);
 
     // Manually update vote count as backup
     await updatePostVoteCount(postId);
@@ -378,7 +354,6 @@ export async function getUserVoteForPost(postId) {
     .single()
 
   if (error && error.code !== 'PGRST116') { // PGRST116 = no rows found
-    console.error('Error fetching user vote:', error)
     return { data: null, error }
   }
 
@@ -398,12 +373,10 @@ export async function updatePostVoteCount(postId) {
       .eq('vote_type', 'upvote')
 
     if (countError) {
-      console.error('Error counting votes:', countError)
       return
     }
 
     const voteCount = votes ? votes.length : 0
-    console.log('Updating post vote count:', { postId, voteCount })
 
     // Update the post's vote count
     const { error: updateError } = await supabase
@@ -412,10 +385,8 @@ export async function updatePostVoteCount(postId) {
       .eq('id', postId)
 
     if (updateError) {
-      console.error('Error updating post vote count:', updateError)
     }
   } catch (error) {
-    console.error('Error in updatePostVoteCount:', error)
   }
 }
 
@@ -434,7 +405,6 @@ export async function getPostComments(postId) {
     .order('created_at', { ascending: true })
 
   if (error) {
-    console.error('Error fetching post comments:', error)
     return { data: null, error }
   }
 
@@ -467,7 +437,6 @@ export async function createComment(commentData) {
       .single()
 
     if (error) {
-      console.error('Error creating comment:', error)
       return { data: null, error }
     }
 
@@ -488,7 +457,6 @@ export async function createComment(commentData) {
       .single()
 
     if (error) {
-      console.error('Error creating anonymous comment:', error)
       return { data: null, error }
     }
 
@@ -520,7 +488,6 @@ export async function updateComment(commentId, content) {
     .single()
 
   if (error) {
-    console.error('Error updating comment:', error)
     return { data: null, error }
   }
 
@@ -537,11 +504,9 @@ export async function deleteComment(commentId) {
     } = await supabase.auth.getUser()
 
     if (!user) {
-      console.log('User not authenticated for comment deletion');
       return { data: null, error: { message: 'User not authenticated' } }
     }
 
-    console.log('Attempting to delete comment:', { commentId, userId: user.id });
 
     // First, verify the comment exists and belongs to the user
     const { data: existingComment, error: fetchError } = await supabase
@@ -551,22 +516,16 @@ export async function deleteComment(commentId) {
       .single()
 
     if (fetchError) {
-      console.error('Error fetching comment for deletion:', fetchError);
       return { data: null, error: fetchError }
     }
 
     if (!existingComment) {
-      console.error('Comment not found');
       return { data: null, error: { message: 'Comment not found' } }
     }
 
-    console.log('Comment found:', existingComment);
-    console.log('User attempting deletion:', user.id);
-    console.log('Comment author:', existingComment.author_id);
 
     // Check if user is the author
     if (existingComment.author_id !== user.id) {
-      console.error('User not authorized to delete this comment');
       return { data: null, error: { message: 'Not authorized to delete this comment' } }
     }
 
@@ -578,21 +537,16 @@ export async function deleteComment(commentId) {
       .eq('author_id', user.id)
 
     if (deleteError) {
-      console.error('Error deleting comment:', deleteError);
       return { data: null, error: deleteError }
     }
 
-    console.log('Delete operation completed. Rows affected:', count);
 
     if (count === 0) {
-      console.warn('No rows were deleted. This might indicate a permissions issue.');
       return { data: null, error: { message: 'Failed to delete comment - no rows affected' } }
     }
 
-    console.log('Comment deleted successfully');
     return { data: true, error: null }
   } catch (err) {
-    console.error('Unexpected error in deleteComment:', err);
     return { data: null, error: { message: 'Unexpected error occurred', details: err.message } }
   }
 }
@@ -611,7 +565,6 @@ export async function deleteCommentRPC(commentId) {
       return { data: null, error: { message: 'User not authenticated' } }
     }
 
-    console.log('Attempting RPC delete for comment:', { commentId, userId: user.id });
 
     // Use RPC to call a database function
     const { data, error } = await supabase.rpc('delete_user_comment', {
@@ -620,14 +573,11 @@ export async function deleteCommentRPC(commentId) {
     });
 
     if (error) {
-      console.error('RPC delete error:', error);
       return { data: null, error }
     }
 
-    console.log('RPC delete result:', data);
     return { data: data, error: null }
   } catch (err) {
-    console.error('Unexpected error in deleteCommentRPC:', err);
     return { data: null, error: { message: 'Unexpected error occurred', details: err.message } }
   }
 }
@@ -645,7 +595,6 @@ export async function deleteCommentSimple(commentId) {
       return { data: null, error: { message: 'User not authenticated' } }
     }
 
-    console.log('Simple delete attempt for comment:', commentId);
 
     // Direct delete without pre-checks
     const { error, count } = await supabase
@@ -654,11 +603,9 @@ export async function deleteCommentSimple(commentId) {
       .match({ id: commentId, author_id: user.id })
 
     if (error) {
-      console.error('Simple delete error:', error);
       return { data: null, error }
     }
 
-    console.log('Simple delete rows affected:', count);
     
     if (count === 0) {
       return { data: null, error: { message: 'No comment found to delete or not authorized' } }
@@ -666,7 +613,6 @@ export async function deleteCommentSimple(commentId) {
 
     return { data: true, error: null }
   } catch (err) {
-    console.error('Unexpected error in deleteCommentSimple:', err);
     return { data: null, error: { message: 'Unexpected error occurred', details: err.message } }
   }
 }

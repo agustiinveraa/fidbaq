@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Bricolage_Grotesque } from 'next/font/google';
@@ -15,6 +15,70 @@ const __Bricolage_Grotesque_e97790 = Bricolage_Grotesque({
 export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  
+  // Control de visualización del popup
+  useEffect(() => {
+    // Comprobamos si el usuario ya ha cerrado el popup antes
+    const popupClosed = localStorage.getItem('feedbackCommentsPopupClosed');
+    
+    if (!popupClosed) {
+      // Mostrar popup después de 3 segundos
+      const timer = setTimeout(() => {
+        const popupElement = document.querySelector('.feature-popup');
+        if (popupElement) {
+          popupElement.classList.remove('opacity-0', 'translate-y-5');
+          popupElement.classList.add('opacity-100', 'translate-y-0');
+        }
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    } else {
+      // Si ya lo cerró antes, ocultamos el popup
+      const popupElement = document.querySelector('.feature-popup');
+      if (popupElement) {
+        popupElement.classList.add('hidden');
+      }
+    }
+  }, []);
+  
+  // Estado para controlar el modal
+  const [modalOpen, setModalOpen] = useState(false);
+  
+  // Función para cerrar el popup
+  const closePopup = () => {
+    const popupElement = document.querySelector('.feature-popup');
+    if (popupElement) {
+      // Animación de salida
+      popupElement.classList.remove('opacity-100', 'translate-y-0');
+      popupElement.classList.add('opacity-0', 'translate-y-5');
+      
+      // Ocultar después de la animación
+      setTimeout(() => {
+        popupElement.classList.add('hidden');
+      }, 300);
+      
+      // Guardar preferencia en localStorage
+      localStorage.setItem('feedbackCommentsPopupClosed', 'true');
+    }
+  };
+  
+  // Función para abrir el modal de demostración
+  const openFeatureModal = () => {
+    const modal = document.getElementById('feature-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  };
+  
+  // Función para cerrar el modal de demostración
+  const closeFeatureModal = () => {
+    const modal = document.getElementById('feature-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  };
 
   // Mock feedback data
   const mockFeedback = [
@@ -389,7 +453,101 @@ export default function Home() {
             </div>
           </div>
         </footer>
+        
+        {/* New Feature Popup - Comments */}
+        <div className="feature-popup fixed bottom-6 left-6 z-50 max-w-sm opacity-0 translate-y-5 transition-all duration-300 ease-in-out">
+          <div className="bg-white rounded-2xl shadow-2xl border border-emerald-200 overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600">
+              <div className="flex items-center gap-2">
+                <span className="bg-white bg-opacity-20 p-1 rounded-md">
+                  <MessageCircle className="w-4 h-4 text-gray-900" />
+                </span>
+                <h4 className="text-white font-semibold text-sm">New Feature!</h4>
+              </div>
+              <button 
+                className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-1"
+                onClick={closePopup}
+                aria-label="Close"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <div className="p-4">
+              {/* Media container for GIF/video - replace with actual media */}
+              <div className="rounded-lg w-full aspect-video mb-3 overflow-hidden cursor-pointer relative group" 
+                onClick={openFeatureModal}>
+                <Image
+                  src="/comments_demo.gif"
+                  alt="Comments feature demonstration"
+                  width={500}
+                  height={280}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <div className="bg-white bg-opacity-80 rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-900">
+                      <path d="m15 3 6 6m0 0-6 6m6-6H3"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <h3 className="font-bold text-gray-900 mb-2">Feedback Comments</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Now your users can comment on feedback posts, creating richer and more collaborative conversations.
+              </p>
+              
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => router.push('/login')}
+                  className="flex-1 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-3 py-2 rounded-xl font-semibold text-sm transition-all duration-300 hover:scale-105 active:scale-95 transform-gpu"
+                >
+                  Try it now!
+                </button>
+              </div>
+            </div>
+            
+            <div className="px-4 py-2 bg-emerald-50 border-t border-emerald-100">
+              <div className="flex items-center text-xs text-emerald-700">
+                <Star className="w-3 h-3 mr-1 fill-emerald-500 text-emerald-500" />
+                <span>Available in all plans</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        {/* Feature Modal */}
+        <div id="feature-modal" className="fixed inset-0 bg-black bg-opacity-75 z-[100] hidden items-center justify-center p-4 sm:p-8">
+          <div className="bg-white rounded-2xl overflow-hidden max-w-4xl w-full mx-auto">
+            <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600">
+              <h3 className="text-white font-semibold">Comments Feature Demo</h3>
+              <button 
+                className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-2"
+                onClick={closeFeatureModal}
+                aria-label="Close"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div className="p-2">
+              <Image
+                src="/comments_demo.gif"
+                alt="Comments feature demonstration"
+                width={1200}
+                height={675}
+                className="w-full h-auto max-h-[80vh] object-contain"
+              />
+            </div>
+          </div>
+        </div>
+        
         {/* Floating GitHub Badge */}
         <div className="fixed bottom-6 right-6 z-50">
           <a 

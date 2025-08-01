@@ -223,7 +223,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="demo" className="py-8 lg:py-16 flex-1 lg:flex-shrink-0 lg:w-96">
+        <section className="py-8 lg:py-16 flex-1 lg:flex-shrink-0 lg:w-96">
           <div className="max-w-md mx-auto lg:max-w-lg">
           
 
@@ -410,7 +410,7 @@ export default function Home() {
         </section>
 
         {/* Demo Section */}
-        <section id="demo" className="px-6 py-16 bg-gray-50">
+        <section id="demo" className="px-6 py-16  bg-gray-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 style={{fontSize: '48px', letterSpacing: '-0.4px', lineHeight: '1'}} className="font-black mb-6 text-gray-900">

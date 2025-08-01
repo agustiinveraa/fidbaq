@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useUserPlan } from '@/hooks/useUserPlan';
 import { getUserBoards, createBoard } from '@/lib/database';
 import { Bricolage_Grotesque } from 'next/font/google';
-import { ArrowDown, MoreHorizontal } from 'lucide-react';
+import { ArrowDown, Crown, MoreHorizontal } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import Header from '@/components/Header';
 import { toast } from '@/components/Toast';
@@ -23,6 +24,7 @@ export default function Dashboard() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const router = useRouter();
   const { user, signOut, loading: authLoading } = useAuth();
+  const { plan, isPro } = useUserPlan();
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -66,6 +68,12 @@ export default function Dashboard() {
 
   const handleCreateBoard = async () => {
     if (!newBoardName.trim() || createLoading) return;
+
+    // Verificar límite para usuarios free
+    if (!isPro && boards.length >= 3) {
+      toast.error('Free users can only create up to 3 boards. Upgrade to Pro for unlimited boards!');
+      return;
+    }
 
     setCreateLoading(true);
     const { data, error } = await createBoard({
@@ -128,23 +136,49 @@ export default function Dashboard() {
               Create New Board
             </h2>
             
-            <div className="space-y-4">
-              <input
-                type="text"
-                value={newBoardName}
-                onChange={(e) => setNewBoardName(e.target.value)}
-                placeholder="Enter board name..."
-                className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition-colors"
-              />
-              
-              <button
-                onClick={handleCreateBoard}
-                disabled={createLoading || !newBoardName.trim()}
-                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-4 px-6 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {createLoading ? 'Creating...' : 'Create Board'}
-              </button>
-            </div>
+            {!isPro && boards.length >= 3 ? (
+              // Mensaje de upgrade para usuarios free que alcanzaron el límite
+              <div className="bg-gray-100 p-3 rounded-xl flex flex-col justify-center items-center">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  You&apos;ve reached the limit!
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Free users can create up to 3 boards. Upgrade to Pro for unlimited boards and more features.
+                </p>
+                <button
+                  onClick={() => router.push('/?upgrade=true')}
+                  className="flex justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 border-0 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 transform-gpu cursor-pointer w-auto"
+                >
+                  <Crown className='w-4 h-4' />
+                  <span>Upgrade to pro</span>
+                </button>
+              </div>
+            ) : (
+              // Formulario normal para crear board
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={newBoardName}
+                  onChange={(e) => setNewBoardName(e.target.value)}
+                  placeholder="Enter board name..."
+                  className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition-colors"
+                />
+                
+                <button
+                  onClick={handleCreateBoard}
+                  disabled={createLoading || !newBoardName.trim()}
+                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-4 px-6 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {createLoading ? 'Creating...' : 'Create Board'}
+                </button>
+                
+                {!isPro && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    {3 - boards.length} boards remaining on free plan
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -152,13 +186,20 @@ export default function Dashboard() {
         <div>
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-800">
-              Your Boards ({boards.length})
+              Your Boards ({boards.length}{!isPro ? '/3' : ''})
             </h2>
-            {boards.length > 0 && (
-              <div className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
-                {boards.length} Active
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              {boards.length > 0 && (
+                <div className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+                  {boards.length} Active
+                </div>
+              )}
+              {!isPro && (
+                <div className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
+                  Free Plan
+                </div>
+              )}
+            </div>
           </div>
 
           {boards.length === 0 ? (

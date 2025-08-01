@@ -80,6 +80,21 @@ export const AuthProvider = ({ children }) => {
     return { error };
   };
 
+  const refreshUser = async () => {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        console.error('Error refreshing user:', error);
+      } else {
+        setUser(user);
+      }
+      return { user, error };
+    } catch (error) {
+      console.error('Error in refreshUser:', error);
+      return { user: null, error };
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -87,6 +102,7 @@ export const AuthProvider = ({ children }) => {
     signUpWithEmail,
     signInWithProvider,
     signOut,
+    refreshUser,
   };
 
   return (

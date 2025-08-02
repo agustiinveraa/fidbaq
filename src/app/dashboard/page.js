@@ -146,7 +146,7 @@ export default function Dashboard() {
                   Free users can create up to 3 boards. Upgrade to Pro for unlimited boards and more features.
                 </p>
                 <button
-                  onClick={() => router.push('/?upgrade=true')}
+                  onClick={() => router.push('/?upgrade=true#pricing')}
                   className="flex justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 border-0 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 transform-gpu cursor-pointer w-auto"
                 >
                   <Crown className='w-4 h-4' />

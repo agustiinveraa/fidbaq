@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Crown, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Header({ title, subtitle, showUserMenu = true, showLogo = true, actions = null }) {
   const { user, signOut } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
   const handleSignOut = async () => {
     try {
@@ -79,7 +81,7 @@ export default function Header({ title, subtitle, showUserMenu = true, showLogo 
                   <div className="p-1">
                     <button
                     //TODO: COMING SOON
-                    //   onClick={alert("Coming soon...")} 
+                      onClick={() => router.push('/?upgrade=true#pricing')}
                       className="w-full text-left px-4 py-1 text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium flex items-center space-x-2"
                     >
                       <Crown className='w-4'></Crown>

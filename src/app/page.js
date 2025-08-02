@@ -752,7 +752,7 @@ export default function Home() {
         </div>
 
         {/* Feature Modal */}
-        <div id="feature-modal" className="fixed inset-0 bg-black bg-opacity-75 z-[100] hidden items-center justify-center p-4 sm:p-8">
+        <div id="feature-modal" className="fixed inset-0 bg-black z-[100] hidden items-center justify-center p-4 sm:p-8">
           <div className="bg-white rounded-2xl overflow-hidden max-w-4xl w-full mx-auto">
             <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600">
               <h3 className="text-white font-semibold">Comments Feature Demo</h3>

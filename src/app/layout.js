@@ -4,6 +4,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ToastContainer from "@/components/Toast";
 import ConfirmModal from "@/components/ConfirmModal";
 import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,20 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-70E13BFW6F"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-70E13BFW6F');
+          `}
+        </Script>
+
         <AuthProvider>
           {children}
         </AuthProvider>

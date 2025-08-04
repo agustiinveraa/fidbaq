@@ -19,9 +19,9 @@ export const metadata = {
   title: "Fidbaq - Build features your users actually need",
   description: "Fidbaq helps you collect, organize, and act on user feedback — so you can focus on building features that matter. Start for free!",
   icons: {
-    icon: '/1.png',
-    shortcut: '/1.png',
-    apple: '/1.png',
+    icon: '/fidbaq.png',
+    shortcut: '/fidbaq.png',
+    apple: '/fidbaq.png',
   },
 };
 

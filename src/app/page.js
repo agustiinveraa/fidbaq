@@ -7,6 +7,7 @@ import { Bricolage_Grotesque } from 'next/font/google';
 import { MessageSquarePlus, Users, MessageCircle, ArrowRight, Star, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import UpgradeButton from '@/components/UpgradeButton';
+import AvatarGroup from '@/components/AvatarGroup';
 
 const __Bricolage_Grotesque_e97790 = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -195,7 +196,7 @@ export default function Home() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center mb-5">
               <button
                 onClick={() => router.push(user ? '/dashboard' : '/login')}
                 className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-2xl font-bold text-sm transition-colors duration-300 cursor-pointer shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center w-[250px] h-[54px]"
@@ -217,9 +218,17 @@ export default function Home() {
                   className="hover:opacity-90 transition-opacity duration-300 cursor-pointer"
                 />
               </a>
-            </div>
 
-            
+              {/* <a href="https://peerlist.io/agusxyz/project/fidbaq" target="_blank" rel="noreferrer">
+                <img
+                  src="https://peerlist.io/api/v1/projects/embed/PRJHMQ6AO6KEQ8DN91JAGBD7APNPEE?showUpvote=true&theme=light"
+                  alt="Fidbaq"
+                  style={{width: "auto", height: "72px"}}
+                />
+              </a> */}
+            </div>
+            <AvatarGroup />
+
           </div>
         </section>
 

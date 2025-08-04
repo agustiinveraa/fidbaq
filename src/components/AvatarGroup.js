@@ -28,7 +28,7 @@ export default function AvatarGroup() {
                 <div className="mask mask-star-2 bg-orange-400" aria-label="4 star"></div>
                 <div className="mask mask-star-2 bg-orange-400" aria-label="5 star"aria-current="true"></div>
             </div>
-            <span className="text-sm sm:text-base">Makers build what <span className="font-bold">users want</span></span>
+            <span className="text-sm sm:text-base">+15 makers build what <span className="font-bold">users want</span></span>
         </div>
         </div>
         </>
